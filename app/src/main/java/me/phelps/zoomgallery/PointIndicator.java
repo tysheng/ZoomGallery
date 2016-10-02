@@ -1,4 +1,4 @@
-package me.phelps.library;
+package me.phelps.zoomgallery;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -12,8 +12,8 @@ import android.view.View;
  * Created by phelps on 15-4-9.
  */
 public class PointIndicator extends View{
-    private static final int NORMAL_COLOR = R.color.p_grey_600;
-    private static final int SELECT_COLOR = R.color.p_grey_200;
+    private static final int NORMAL_COLOR = me.phelps.library.R.color.p_grey_600;
+    private static final int SELECT_COLOR = me.phelps.library.R.color.p_grey_200;
     private static final int DEFAULT_SPACING = 20;
 
     private Paint mPointPaint;
@@ -101,7 +101,7 @@ public class PointIndicator extends View{
         }
 
         mPointNO = mViewPager.getAdapter().getCount();
-        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 if(mOnPageChangeListener!= null){
@@ -126,10 +126,6 @@ public class PointIndicator extends View{
             }
         });
         postInvalidate();
-    }
-
-    public void setOnPageChangeListener(ViewPager.OnPageChangeListener onPageChangeListener){
-        mOnPageChangeListener = onPageChangeListener;
     }
 
 }

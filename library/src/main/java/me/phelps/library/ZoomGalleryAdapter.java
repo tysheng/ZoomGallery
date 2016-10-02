@@ -5,6 +5,8 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 import uk.co.senab.photoview.PhotoView;
@@ -16,35 +18,27 @@ public class ZoomGalleryAdapter extends PagerAdapter {
     private ArrayList<ZoomImageModel> mZoomImageList;
 
     private ZoomGalleryTapListener mListener;
-    private ZoomGalleryInstantiateItem mItemListener;
 
-    public ZoomGalleryAdapter(ZoomGalleryTapListener listener,ZoomGalleryInstantiateItem itemListener){
+    public ZoomGalleryAdapter(ZoomGalleryTapListener listener) {
         mListener = listener;
-        mItemListener = itemListener;
+
     }
 
-    public void update(ArrayList<ZoomImageModel> zoomImageList){
+    public void update(ArrayList<ZoomImageModel> zoomImageList) {
         mZoomImageList = zoomImageList;
         notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        return mZoomImageList == null?0:mZoomImageList.size();
+        return mZoomImageList == null ? 0 : mZoomImageList.size();
     }
 
     @Override
     public View instantiateItem(ViewGroup container, final int position) {
 
         PhotoView imageView = new PhotoView(container.getContext());
-        imageView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
-            @Override
-            public void onPhotoTap(View view, float v, float v2) {
-                if (mListener != null) {
-                    mListener.tap(position);
-                }
-            }
-        });
+
         imageView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override
             public void onViewTap(View view, float v, float v2) {
@@ -53,10 +47,9 @@ public class ZoomGalleryAdapter extends PagerAdapter {
                 }
             }
         });
-
-        if(mItemListener != null){
-            mItemListener.onItemInstantiate(container,position,imageView,mZoomImageList.get(position));
-        }
+        Glide.with(container.getContext().getApplicationContext())
+                .load(mZoomImageList.get(position).bigImagePath)
+                .into(imageView);
 
         container.addView(imageView, ViewPager.LayoutParams.MATCH_PARENT, ViewPager.LayoutParams.MATCH_PARENT);
         return imageView;
@@ -77,12 +70,10 @@ public class ZoomGalleryAdapter extends PagerAdapter {
         return POSITION_NONE;
     }
 
-    public interface ZoomGalleryTapListener{
-        public void tap(int position);
+    public interface ZoomGalleryTapListener {
+        void tap(int position);
     }
 
-    public interface ZoomGalleryInstantiateItem{
-        void onItemInstantiate(ViewGroup container, final int position, PhotoView view,ZoomImageModel model);
-    }
+
 
 }

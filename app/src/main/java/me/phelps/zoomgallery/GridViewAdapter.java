@@ -9,8 +9,6 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import me.phelps.library.RectImageView;
-
 /**
  * Created by apple on 15/4/23.
  */

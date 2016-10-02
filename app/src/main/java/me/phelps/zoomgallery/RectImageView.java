@@ -1,4 +1,4 @@
-package me.phelps.library;
+package me.phelps.zoomgallery;
 
 import android.content.Context;
 import android.util.AttributeSet;
